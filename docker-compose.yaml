@@ -1,9 +1,12 @@
+# docker-compose.yml
+
+version: '3.8'
+
 services:
-  api:
+  web:
     build: .
-    container_name: fastapi-application
-    environment:
-      PORT: 8000
+    command: uvicorn app.main:app --host 0.0.0.0
+    volumes:
+      - .:/app
     ports:
-      - '8000:8000'
-    restart: "no"
+      - 8008:8000
