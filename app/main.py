@@ -4,12 +4,19 @@ from typing import Optional, Generic, TypeVar, Dict, List, Any
 from fastapi import FastAPI
 from strawberry.asgi import GraphQL
 import requests
+import os
+from dotenv import load_dotenv
 
-OMDB_URL = "http://www.omdbapi.com/?apikey=c05820ad&s={}"
+# load environment variable
+load_dotenv()
+
+API_KEY = os.getenv('API_KEY')
+
+OMDB_URL = "http://www.omdbapi.com/?apikey={}&s={}"
 
 # get filtered movie data from OMDB API
 def get_movie_data(s):
-  movie_data = requests.get(OMDB_URL.format(s)).json()
+  movie_data = requests.get(OMDB_URL.format(API_KEY, s)).json()
   return movie_data
 
 @strawberry.type
