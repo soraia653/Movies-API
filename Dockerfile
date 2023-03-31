@@ -1,16 +1,19 @@
 FROM python:3.10
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# set working directory
+WORKDIR /app
 
-WORKDIR /code
+# install poetry
+RUN pip install poetry
 
-COPY ./requirements.txt /code/requirements.txt
+# copy files to working directory
+COPY ./app /app
+COPY pyproject.toml /app
 
-# Install dependencies
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+# set up poetry
+RUN curl -sSL https://install.python-poetry.org | POETRY_VERSION=1.2.0 python3 -
+RUN poetry config virtualenvs.create false
+RUN poetry install --only main
 
-COPY ./app /code/app
-
-CMD ["uvicorn", "app.main:app", "--reload"]
+# run the application
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

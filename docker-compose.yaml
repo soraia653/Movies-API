@@ -1,12 +1,20 @@
 # docker-compose.yml
 
-version: '3.8'
+version: "3.8"
 
 services:
-  web:
-    build: .
-    command: uvicorn app.main:app --host 0.0.0.0
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - .:/app
+      - type: volume
+        source: app_data
+        target: /app/app
     ports:
-      - "0.0.0.0:${PORT}"
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=dev
+
+volumes:
+  app_data:
