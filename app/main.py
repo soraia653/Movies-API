@@ -5,6 +5,7 @@ from strawberry.asgi import GraphQL
 import uvicorn
 
 from query import Query
+from settings import HOST, PORT
 
 app = FastAPI()
 
@@ -15,4 +16,4 @@ app.add_route("/graphql", graphql_app)
 app.add_websocket_route("/graphql", graphql_app)
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host=HOST, port=PORT)
