@@ -6,7 +6,10 @@ import strawberry
 class PageInfo:
     """Pagination metadata."""
 
-    next_cursor: Optional[str] = strawberry.field()
+    start_cursor: Optional[str] = strawberry.field()
+    end_cursor: Optional[str] = strawberry.field()
+    has_next_page: bool = strawberry.field()
+    has_previous_page: bool = strawberry.field()
 
 
 @strawberry.type
@@ -33,10 +36,27 @@ class Movie:
         )
 
 
+# @strawberry.type
+# class MovieResult:
+#     """Class represents the results of a movie search."""
+
+#     total_results: int
+#     movies: List[Movie]
+#     page_info: PageInfo = strawberry.field()
+
+
 @strawberry.type
-class MovieResult:
+class MovieEdge:
+    """Each edge contains it's own cursor and item (movie)."""
+
+    node: Movie = strawberry.field()
+    cursor: str = strawberry.field()
+
+
+@strawberry.type
+class MovieConnection:
     """Class represents the results of a movie search."""
 
     total_results: int
-    movies: List[Movie]
-    page_info: PageInfo = strawberry.field()
+    movies: List[MovieEdge] = strawberry.field()
+    page_info: "PageInfo" = strawberry.field()

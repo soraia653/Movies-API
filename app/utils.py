@@ -2,7 +2,7 @@ from base64 import b64encode, b64decode
 import requests
 
 from settings import OMDB_API_KEY, OMDB_URL
-from schema import Movie, MovieResult, PageInfo
+from schema import Movie, MovieConnection, PageInfo, MovieEdge
 
 
 def encode_movie_cursor(movie_id: int) -> str:
@@ -16,7 +16,7 @@ def decode_movie_cursor(cursor: str) -> int:
     return int(movie_cursor.split(":")[1])
 
 
-def get_movies(query: str, limit: int = None, cursor: str = None) -> MovieResult:
+def get_movies(query: str, first: int, after: str) -> MovieConnection:
     """
     Requests all movies related to specific movie search.
     """
@@ -27,8 +27,8 @@ def get_movies(query: str, limit: int = None, cursor: str = None) -> MovieResult
 
     params = {"apikey": OMDB_API_KEY, "s": query, "page": page}
 
-    if cursor is not None:
-        mov_id = decode_movie_cursor(cursor=cursor)
+    if after is not None:
+        mov_id = decode_movie_cursor(cursor=after)
     else:
         mov_id = 0
 
@@ -57,18 +57,39 @@ def get_movies(query: str, limit: int = None, cursor: str = None) -> MovieResult
         else:
             return None
 
-    filtered_movies = list(filter(lambda movie: movie.id >= mov_id, movies))
+    filtered_movies = list(filter(lambda movie: movie.id > mov_id, movies))
 
-    sliced_movies = filtered_movies[: limit + 1]
+    sliced_movies = filtered_movies[0:first]
 
-    if len(sliced_movies) > limit:
-        last_movie = sliced_movies.pop(-1)
-        next_cursor = encode_movie_cursor(movie_id=last_movie.id)
+    if len(filtered_movies) > len(sliced_movies) and len(filtered_movies) > first:
+        has_next_page = True
     else:
-        next_cursor = None
+        has_next_page = False
 
-    return MovieResult(
+    has_previous_page = mov_id > 0
+
+    edges = [
+        MovieEdge(node=movieObject, cursor=encode_movie_cursor(movie_id=movieObject.id))
+        for movieObject in sliced_movies
+    ]
+
+    if edges:
+        start_cursor = edges[0].cursor
+    else:
+        start_cursor = None
+
+    if len(edges) > 1:
+        end_cursor = edges[-1].cursor
+    else:
+        end_cursor = None
+
+    return MovieConnection(
         total_results=total_results,
-        movies=sliced_movies,
-        page_info=PageInfo(next_cursor=next_cursor),
+        movies=edges,
+        page_info=PageInfo(
+            has_next_page=has_next_page,
+            has_previous_page=has_previous_page,
+            start_cursor=start_cursor,
+            end_cursor=end_cursor,
+        ),
     )
