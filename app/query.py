@@ -1,8 +1,7 @@
-from typing import Optional, Generic, TypeVar, Dict, List, Any
 import strawberry
-
-from utils import get_movies
-from schema import Movie, MovieConnection
+from typing import Optional
+from app.utils import get_movies
+from app.schema import MovieConnection
 
 
 @strawberry.type

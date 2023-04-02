@@ -4,8 +4,8 @@ from fastapi import FastAPI
 from strawberry.asgi import GraphQL
 import uvicorn
 
-from query import Query
-from settings import HOST, PORT
+from app.query import Query
+from app.settings import HOST, PORT
 
 app = FastAPI()
 

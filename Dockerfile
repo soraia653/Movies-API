@@ -4,16 +4,17 @@ FROM python:3.10
 WORKDIR /app
 
 # install poetry
-RUN pip install poetry
+RUN pip install --upgrade pip \
+    && pip install poetry
 
 # copy files to working directory
-COPY ./app /app
-COPY pyproject.toml /app
+COPY app /app/app
+COPY tests /app/tests
+COPY pyproject.toml poetry.lock /app/
 
-# set up poetry
-RUN curl -sSL https://install.python-poetry.org | POETRY_VERSION=1.2.0 python3 -
-RUN poetry config virtualenvs.create false
-RUN poetry install --only main
+# install dependencies
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-dev --no-interaction --no-ansi
 
 # run the application
 CMD ["python", "-m", "uvicorn", "app.main:app", "--reload"]
