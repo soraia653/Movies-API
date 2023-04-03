@@ -4,74 +4,83 @@ Implemented a simple API that fetches movie data using the OMDB API.
 
 ## Requirements
 
-Python 3.9 or higher
-Docker and Docker Compose (optional)
+- Python 3.9 or higher
+- Docker and Docker Compose (optional)
 
 ## Configuration
 
+To run this project, you will need to update the following variables in the app/settings.py file.
+
+- `OMDB_API_KEY`
+
+- `HOST`
+
+- `PORT`
+
+## Installation
+
 You can configure the API by modifying the settings in the app/settings.py file.
 
-## Getting Started
-
-To get started, follow these instructions:
-
-1. Clone this repository
+- Clone this repository
 
 ```bash
-git clone https://github.com/soraia653/movies-api.git
-cd movies-api
+  git clone https://github.com/soraia653/movies-api.git
+  cd movies-api
 ```
 
-2. Install required dependencies:
+- Install Poetry:
 
 ```bash
-poetry install
+  curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 ```
 
-3. Run the API:
+- Install project dependencies using Poetry:
 
 ```bash
-python app/main.py
+  poetry install
 ```
 
-This will start the API and make it available at http://localhost:8000/graphql.
+## Usage
 
-You can use a GraphQL client like GraphiQL or GraphQL Playground to interact with the API.
+## Running Locally
+
+- Start the application:
+
+```bash
+  python app/main.py
+```
+
+You can access the GraphQL interface at `http://localhost:8000/graphql`.
 
 ## Running with Docker Compose
 
-Alternatively, you can run the API using Docker Compose:
-
-1. Clone this repository
+To run the application using Docker Compose, navigate to the root of the project and run:
 
 ```bash
-git clone https://github.com/soraia653/movies-api.git
-cd movies-api
+  docker-compose up -d
 ```
 
-2. Build and start the Docker container:
+You can access the GraphQL interface at `http://localhost:8000/graphql`.
+
+To stop the running containers, use CTRL + C or run:
 
 ```bash
-docker-compose up -d
+  docker-compose down
 ```
 
-## Testing
+## Running Tests
 
-To run the tests, use the following command:
+To run tests, run the following command:
 
 ```bash
-pytest
+  pytest
 ```
 
-This will run all the tests in the tests directory.
+This will run all existing tests in the `tests` folder.
 
-## Contributing
+## Examples
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## Usage/Examples
-
-Query
+- Example query:
 
 ```bash
 query getMovies {
@@ -92,7 +101,7 @@ query getMovies {
 }
 ```
 
-Expected Result
+- Expected Result:
 
 ```
 {
