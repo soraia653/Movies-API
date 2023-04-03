@@ -1,12 +1,12 @@
 # docker-compose.yml
 
-version: '3.8'
+version: "3"
 
 services:
-  web:
+  app:
     build: .
-    command: uvicorn app.main:app --host 0.0.0.0
     volumes:
-      - .:/app
+      - ./app:/app/app
+      - ./tests:/app/tests
     ports:
-      - "0.0.0.0:${PORT}"
+      - "8000:8000"

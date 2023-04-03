@@ -1,37 +1,89 @@
-
 # Simple API using Python and Strawberry
 
 Implemented a simple API that fetches movie data using the OMDB API.
 
+[![Coverage](coverage.svg)](htmlcov/index.html)
 
-## Environment Variables
+## Requirements
 
-To run this project, you will need to add a .env file to the root of this project and the following environment variables to your .env file:
+- Python 3.9 or higher
+- Docker and Docker Compose (optional)
 
-- `API_KEY`
+## Configuration
+
+To run this project, you will need to update the following variables in the app/settings.py file.
+
+- `OMDB_API_KEY`
+
+- `HOST`
 
 - `PORT`
 
+## Installation
 
-## Run Locally
+You can configure the API by modifying the settings in the app/settings.py file.
 
-Create and activate a virtual environment
-
-```bash
-python -m venv venv
-source venv/bin/activate
-```
-
-To deploy this project run
+- Clone this repository
 
 ```bash
-  docker-compose up
+  git clone https://github.com/soraia653/movies-api.git
+  cd movies-api
 ```
 
-The app will be running at http://localhost:8000 (or whatever port you used in the PORT variable).
-## Usage/Examples
+- Install Poetry:
 
-Query
+```bash
+  curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+```
+
+- Install project dependencies using Poetry:
+
+```bash
+  poetry install
+```
+
+## Usage
+
+## Running Locally
+
+- Start the application:
+
+```bash
+  python app/main.py
+```
+
+You can access the GraphQL interface at `http://localhost:8000/graphql`.
+
+## Running with Docker Compose
+
+To run the application using Docker Compose, navigate to the root of the project and run:
+
+```bash
+  docker-compose up -d
+```
+
+You can access the GraphQL interface at `http://localhost:8000/graphql`.
+
+To stop the running containers, use CTRL + C or run:
+
+```bash
+  docker-compose down
+```
+
+## Running Tests
+
+To run tests, run the following command:
+
+```bash
+  pytest
+```
+
+This will run all existing tests in the `tests` folder.
+
+## Examples
+
+- Example query:
+
 ```bash
 query getMovies {
   getMovie(title: "Harry Potter", first: 2) {
@@ -51,7 +103,8 @@ query getMovies {
 }
 ```
 
-Expected Result
+- Expected Result:
+
 ```
 {
   "data": {
