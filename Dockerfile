@@ -1,20 +1,22 @@
-FROM python:3.10
+FROM python:3.10-slim
 
 # set working directory
 WORKDIR /app
+
+# copy requirements file to work directory
+COPY pyproject.toml poetry.lock ./
 
 # install poetry
 RUN pip install --upgrade pip \
     && pip install poetry
 
-# copy files to working directory
-COPY app /app/app
-COPY tests /app/tests
-COPY pyproject.toml poetry.lock /app/
-
 # install dependencies
 RUN poetry config virtualenvs.create false \
     && poetry install --no-dev --no-interaction --no-ansi
 
+# Copy the rest of the application to the container
+COPY app ./app
+COPY tests ./tests
+
 # run the application
-CMD ["python", "-m", "uvicorn", "app.main:app", "--reload"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -65,9 +65,12 @@ def get_movies(query: str, first: int, after: str) -> MovieConnection:
 
     has_previous_page = mov_id > 0
 
-    for mov_object in sliced_movies:
-        edge_cursor = encode_movie_cursor(movie_id=mov_object.id)
-        edges = [MovieEdge(node=mov_object, cursor=edge_cursor)]
+    edges = [
+        MovieEdge(
+            node=mov_object,
+            cursor=encode_movie_cursor(movie_id=mov_object.id)
+        ) for mov_object in sliced_movies
+    ]
 
     if edges:
         start_cursor = edges[0].cursor

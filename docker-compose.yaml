@@ -1,20 +1,12 @@
 # docker-compose.yml
 
-version: "3.8"
+version: "3"
 
 services:
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  app:
+    build: .
     volumes:
-      - type: volume
-        source: app_data
-        target: /app/app
+      - ./app:/app/app
+      - ./tests:/app/tests
     ports:
       - "8000:8000"
-    environment:
-      - ENVIRONMENT=dev
-
-volumes:
-  app_data:
