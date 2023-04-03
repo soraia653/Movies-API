@@ -1,4 +1,4 @@
-from app.utils import encode_movie_cursor, decode_movie_cursor, get_movies
+from app.utils import decode_movie_cursor, encode_movie_cursor, get_movies
 
 
 class TestUtils:

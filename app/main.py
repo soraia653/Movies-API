@@ -1,8 +1,8 @@
 # required libraries
 import strawberry
+import uvicorn
 from fastapi import FastAPI
 from strawberry.asgi import GraphQL
-import uvicorn
 
 from app.query import Query
 from app.settings import HOST, PORT

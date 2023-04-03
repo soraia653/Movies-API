@@ -1,7 +1,9 @@
-import strawberry
 from typing import Optional
-from app.utils import get_movies
+
+import strawberry
+
 from app.schema import MovieConnection
+from app.utils import get_movies
 
 
 @strawberry.type

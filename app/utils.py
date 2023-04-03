@@ -1,8 +1,9 @@
-from base64 import b64encode, b64decode
+from base64 import b64decode, b64encode
+
 import requests
 
+from app.schema import Movie, MovieConnection, MovieEdge, PageInfo
 from app.settings import OMDB_API_KEY, OMDB_URL
-from app.schema import Movie, MovieConnection, PageInfo, MovieEdge
 
 
 def encode_movie_cursor(movie_id: int) -> str:
@@ -67,9 +68,9 @@ def get_movies(query: str, first: int, after: str) -> MovieConnection:
 
     edges = [
         MovieEdge(
-            node=mov_object,
-            cursor=encode_movie_cursor(movie_id=mov_object.id)
-        ) for mov_object in sliced_movies
+            node=mov_object, cursor=encode_movie_cursor(movie_id=mov_object.id)
+        )
+        for mov_object in sliced_movies
     ]
 
     if edges:

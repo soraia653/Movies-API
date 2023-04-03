@@ -19,7 +19,19 @@ graphene = "^3.2.2"
 pytest = "^7.2.2"
 pytest-cov = "^4.0.0"
 flake8 = "^6.0.0"
-black = "^23.3.0"
 isort = "^5.12.0"
 pre-commit = "^3.2.1"
 coverage-badge = "^1.1.0"
+black = {version = "^23.3.0", allow-prereleases = true}
+click = "8.0.0"
+
+[tool.black]
+line-length = 79
+target-version = ['py310']
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 79
