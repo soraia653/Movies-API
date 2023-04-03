@@ -2,6 +2,8 @@
 
 Implemented a simple API that fetches movie data using the OMDB API.
 
+[![Coverage](coverage.svg)](htmlcov/index.html)
+
 ## Requirements
 
 - Python 3.9 or higher
