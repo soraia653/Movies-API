@@ -1,37 +1,78 @@
-
 # Simple API using Python and Strawberry
 
 Implemented a simple API that fetches movie data using the OMDB API.
 
+## Requirements
 
-## Environment Variables
+Python 3.9 or higher
+Docker and Docker Compose (optional)
 
-To run this project, you will need to add a .env file to the root of this project and the following environment variables to your .env file:
+## Configuration
 
-- `API_KEY`
+You can configure the API by modifying the settings in the app/settings.py file.
 
-- `PORT`
+## Getting Started
 
+To get started, follow these instructions:
 
-## Run Locally
-
-Create and activate a virtual environment
-
-```bash
-python -m venv venv
-source venv/bin/activate
-```
-
-To deploy this project run
+1. Clone this repository
 
 ```bash
-  docker-compose up
+git clone https://github.com/soraia653/movies-api.git
+cd movies-api
 ```
 
-The app will be running at http://localhost:8000 (or whatever port you used in the PORT variable).
+2. Install required dependencies:
+
+```bash
+poetry install
+```
+
+3. Run the API:
+
+```bash
+python app/main.py
+```
+
+This will start the API and make it available at http://localhost:8000/graphql.
+
+You can use a GraphQL client like GraphiQL or GraphQL Playground to interact with the API.
+
+## Running with Docker Compose
+
+Alternatively, you can run the API using Docker Compose:
+
+1. Clone this repository
+
+```bash
+git clone https://github.com/soraia653/movies-api.git
+cd movies-api
+```
+
+2. Build and start the Docker container:
+
+```bash
+docker-compose up -d
+```
+
+## Testing
+
+To run the tests, use the following command:
+
+```bash
+pytest
+```
+
+This will run all the tests in the tests directory.
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
 ## Usage/Examples
 
 Query
+
 ```bash
 query getMovies {
   getMovie(title: "Harry Potter", first: 2) {
@@ -52,6 +93,7 @@ query getMovies {
 ```
 
 Expected Result
+
 ```
 {
   "data": {
